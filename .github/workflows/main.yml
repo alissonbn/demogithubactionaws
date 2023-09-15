@@ -29,28 +29,19 @@ jobs:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::431672190800:role/iamroleoidcgithub-Role-1LRMEKZ4LM1DQ
         
-      - run: npm install -g @angular/cli
+      - name: Instala CLI Angular
+        run: npm install -g @angular/cli
       
-      - run: |
+      - name: Instala pacotes e builda o projeto
+        run: |
           cd demo
           npm ci
           ng build
           ls -R dist
 
-      - run : aws s3 ls
-
-      - name: copia bundle para o S3
+      - name: Copia projeto compilado para o S3
         run: |
           cd demo/dist/demo
           ls 
           aws s3 cp . s3://testegithubaction --recursive
-      
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          
